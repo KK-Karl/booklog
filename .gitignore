@@ -1,0 +1,7 @@
+#/static/
+#/public/
+
+.idea
+*.idea
+
+#themes/

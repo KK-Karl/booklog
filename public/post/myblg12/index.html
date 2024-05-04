@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='https://kk-karl.github.io/booklog/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/frameworks.min.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/github.min.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/github-style.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/light.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/dark.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/syntax.css' />
+    <title>GRPC学习及实践 - mybooklog</title>
+    
+    <link rel="icon" type="image/x-icon" href='../../assets/favicon.ico'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    <meta name="description"
+  content="GRPC学习及实践 RPC RPC 代指远程过程调用（Remote Procedure Call），它的调用包含了传输协议和编码（对象序列号）协议等等。允许运行于一台计算机的程序调用另一台计算机的子程序，而开发人员无需额外地为这个交互作用编程。 RPC具有简单、通用、安全、效率的特点，可以基于 HTTP 协议进行调用。
+GRPC相关安装 安装GRPC 1、go get方式
+$ go get -u google.golang.org/grpc 2、通过github 进入$GOTPATH目录，新建google.golang.org目录，拉取golang在github上的镜像库：
+$ cd /usr/local/go/path/src $ mkdir google.golang.org $ cd google.golang.org/ $ git clone https://github.com/grpc/grpc-go $ mv grpc-go/ grpc/ Protoc Plugin编译器插件安装 $ go get -u github.com/golang/protobuf/protoc-gen-go 将Protoc Plugin的可执行文件从 GOPATH中移动到𝐺𝑂𝑃𝐴𝑇𝐻中移动到GOBIN 下
+$ which protoc-gen-go /usr/local/bin/protoc-gen-go Protocol Buffers v3安装 $ wget https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-all-3.5.1.zip $ unzip protobuf-all-3.5.1.zip $ cd protobuf-3.5.1/ $ ./configure $ make $ make install $ protoc --version libprotoc 3." />
+<meta name="keywords"
+  content='go, 技术' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://kk-karl.github.io/booklog/post/myblg12/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="GRPC学习及实践 - mybooklog" />
+<meta name="twitter:description"
+  content="GRPC学习及实践 RPC RPC 代指远程过程调用（Remote Procedure Call），它的调用包含了传输协议和编码（对象序列号）协议等等。允许运行于一台计算机的程序调用另一台计算机的子程序，而开发人员无需额外地为这个交互作用编程。 RPC具有简单、通用、安全、效率的特点，可以基于 HTTP 协议进行调用。
+GRPC相关安装 安装GRPC 1、go get方式
+$ go get -u google.golang.org/grpc 2、通过github 进入$GOTPATH目录，新建google.golang.org目录，拉取golang在github上的镜像库：
+$ cd /usr/local/go/path/src $ mkdir google.golang.org $ cd google.golang.org/ $ git clone https://github.com/grpc/grpc-go $ mv grpc-go/ grpc/ Protoc Plugin编译器插件安装 $ go get -u github.com/golang/protobuf/protoc-gen-go 将Protoc Plugin的可执行文件从 GOPATH中移动到𝐺𝑂𝑃𝐴𝑇𝐻中移动到GOBIN 下
+$ which protoc-gen-go /usr/local/bin/protoc-gen-go Protocol Buffers v3安装 $ wget https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-all-3.5.1.zip $ unzip protobuf-all-3.5.1.zip $ cd protobuf-3.5.1/ $ ./configure $ make $ make install $ protoc --version libprotoc 3." />
+<meta name="twitter:site" content="https://kk-karl.github.io/booklog/" />
+<meta name="twitter:creator" content="zhaoym" />
+<meta name="twitter:image"
+  content="https://kk-karl.github.io/booklog/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="GRPC学习及实践 - mybooklog">
+<meta property="og:description"
+  content="GRPC学习及实践 RPC RPC 代指远程过程调用（Remote Procedure Call），它的调用包含了传输协议和编码（对象序列号）协议等等。允许运行于一台计算机的程序调用另一台计算机的子程序，而开发人员无需额外地为这个交互作用编程。 RPC具有简单、通用、安全、效率的特点，可以基于 HTTP 协议进行调用。
+GRPC相关安装 安装GRPC 1、go get方式
+$ go get -u google.golang.org/grpc 2、通过github 进入$GOTPATH目录，新建google.golang.org目录，拉取golang在github上的镜像库：
+$ cd /usr/local/go/path/src $ mkdir google.golang.org $ cd google.golang.org/ $ git clone https://github.com/grpc/grpc-go $ mv grpc-go/ grpc/ Protoc Plugin编译器插件安装 $ go get -u github.com/golang/protobuf/protoc-gen-go 将Protoc Plugin的可执行文件从 GOPATH中移动到𝐺𝑂𝑃𝐴𝑇𝐻中移动到GOBIN 下
+$ which protoc-gen-go /usr/local/bin/protoc-gen-go Protocol Buffers v3安装 $ wget https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-all-3.5.1.zip $ unzip protobuf-all-3.5.1.zip $ cd protobuf-3.5.1/ $ ./configure $ make $ make install $ protoc --version libprotoc 3." />
+<meta property="og:url" content="https://kk-karl.github.io/booklog/post/myblg12/" />
+<meta property="og:site_name" content="GRPC学习及实践" />
+<meta property="og:image"
+  content="https://kk-karl.github.io/booklog/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2024-04-27 22:49:48 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://kk-karl.github.io/booklog/">
+        <img class="octicon" height="32" width="32" src="../../images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <img height="24" class="octicon octicon-three-bars" width="24" src="../../images/github-mark-white.png">
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+              <input type="hidden" name="q" value="site:https://kk-karl.github.io/booklog/">
+            </label>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="https://kk-karl.github.io/booklog/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="../../images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  
+<div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="https://kk-karl.github.io/booklog/">
+                  <img class=" avatar-user"
+                    src="../../images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="https://kk-karl.github.io/booklog/">kk-karl</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="https://kk-karl.github.io/booklog/post/myblg12/">GRPC学习及实践</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sat, 27 Apr 2024 22:49:48 &#43;0800"
+                    class="no-wrap">
+                    Sat, 27 Apr 2024 22:49:48 &#43;0800</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sun, 28 Apr 2024 09:45:52 &#43;0800"
+                    class="no-wrap">
+                    Sun, 28 Apr 2024 09:45:52 &#43;0800</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      1940 Words
+                     <span class="file-info-divider"></span>
+                                        3 min
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    
+                    <a class="muted-link mr-3" href="../../tags/go" >
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      go
+                    </a>
+                    
+                    
+                    <a class="muted-link mr-3" href="../../tags/%E6%8A%80%E6%9C%AF" >
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      技术
+                    </a>
+                    
+                    
+                    <a class="muted-link mr-3" href="../../tags/%E7%BC%96%E7%A8%8B" >
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      编程
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h1 id="grpc学习及实践">GRPC学习及实践</h1>
+<h2 id="rpc">RPC</h2>
+<p>RPC 代指远程过程调用（Remote Procedure Call），它的调用包含了传输协议和编码（对象序列号）协议等等。允许运行于一台计算机的程序调用另一台计算机的子程序，而开发人员无需额外地为这个交互作用编程。
+RPC具有简单、通用、安全、效率的特点，可以基于 HTTP 协议进行调用。</p>
+<h2 id="grpc相关安装">GRPC相关安装</h2>
+<h3 id="安装grpc">安装GRPC</h3>
+<p>1、go get方式</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="err">$</span> <span class="k">go</span> <span class="nx">get</span> <span class="o">-</span><span class="nx">u</span> <span class="nx">google</span><span class="p">.</span><span class="nx">golang</span><span class="p">.</span><span class="nx">org</span><span class="o">/</span><span class="nx">grpc</span>
+</span></span></code></pre></div><p>2、通过github
+进入$GOTPATH目录，新建google.golang.org目录，拉取golang在github上的镜像库：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ <span class="nb">cd</span> /usr/local/go/path/src   
+</span></span><span class="line"><span class="cl">$ mkdir google.golang.org
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> google.golang.org/
+</span></span><span class="line"><span class="cl">$ git clone https://github.com/grpc/grpc-go
+</span></span><span class="line"><span class="cl">$ mv grpc-go/ grpc/
+</span></span></code></pre></div><h3 id="protoc-plugin编译器插件安装">Protoc Plugin编译器插件安装</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ go get -u github.com/golang/protobuf/protoc-gen-go
+</span></span></code></pre></div><p>将Protoc Plugin的可执行文件从 GOPATH中移动到𝐺𝑂𝑃𝐴𝑇𝐻中移动到GOBIN 下</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ which protoc-gen-go
+</span></span><span class="line"><span class="cl">/usr/local/bin/protoc-gen-go
+</span></span></code></pre></div><h3 id="protocol-buffers-v3安装">Protocol Buffers v3安装</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ wget https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-all-3.5.1.zip
+</span></span><span class="line"><span class="cl">$ unzip protobuf-all-3.5.1.zip
+</span></span><span class="line"><span class="cl">$ <span class="nb">cd</span> protobuf-3.5.1/
+</span></span><span class="line"><span class="cl">$ ./configure
+</span></span><span class="line"><span class="cl">$ make
+</span></span><span class="line"><span class="cl">$ make install
+</span></span><span class="line"><span class="cl">$ protoc --version
+</span></span><span class="line"><span class="cl">libprotoc 3.5.1
+</span></span></code></pre></div><h2 id="protobuf介绍">Protobuf介绍</h2>
+<p>简单介绍：protobuf是协议，protoc是IDL生成器。
+Protocol Buffers 是一种与语言、平台无关，可扩展的序列化结构化数据的方法，常用于通信协议，数据存储等等。</p>
+<h3 id="语法">语法</h3>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">syntax</span> <span class="p">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">proto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">service</span> <span class="nx">SearchService</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">rpc</span> <span class="nf">Search</span><span class="p">(</span><span class="nx">SearchRequest</span><span class="p">)</span> <span class="nf">returns</span> <span class="p">(</span><span class="nx">SearchResponse</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">option</span> <span class="nx">go_package</span> <span class="p">=</span><span class="s">&#34;./proto&#34;</span><span class="p">;</span> <span class="c1">// 指定RPC文件生成路径地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">message</span> <span class="nx">SearchRequest</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span> <span class="nx">request</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">message</span> <span class="nx">SearchResponse</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span> <span class="nx">response</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ol>
+<li>第一行声明使用 proto3 语法。如果不声明，将默认使用 proto2 语法。</li>
+<li>定义 SearchService RPC 服务，其包含 RPC 方法 Search，入参为 SearchRequest 消息，出参为 SearchResponse 消息</li>
+<li>定义 SearchRequest、SearchResponse 消息，示例定义了一个字段，包含三个属性：类型、字段名称、字段编号</li>
+<li>Protobuf 编译器会根据选择的语言不同，生成相应语言的 Service Interface Code 和 Stubs</li>
+</ol>
+<h3 id="v2v3区别">V2,V3区别</h3>
+<ul>
+<li>删除原始值字段的字段存在逻辑</li>
+<li>删除 required 字段</li>
+<li>删除 optional 字段，默认就是</li>
+<li>删除 default 字段</li>
+<li>删除扩展特性，新增 Any 类型来替代它</li>
+<li>删除 unknown 字段的支持</li>
+<li>新增 JSON Mapping</li>
+<li>新增 Map 类型的支持</li>
+<li>修复 enum 的 unknown 类型</li>
+<li>repeated 默认使用 packed 编码</li>
+<li>引入了新的语言实现（C＃，JavaScript，Ruby，Objective-C）</li>
+</ul>
+<h2 id="protoc使用">protoc使用</h2>
+<p>常用参数-IPATH, &ndash;proto_path=PATH：指定import搜索的目录，可指定多个，如果不指定则默认当前工作目录；&ndash;go_out：生成golang源文件
+示例：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ protoc --go_out<span class="o">=</span><span class="nv">plugins</span><span class="o">=</span>grpc:. *.proto 
+</span></span></code></pre></div><p>将plugins=grpc参数传递给&ndash;go_out,protoc-gen-go可以生成与grpc相兼容的代码</p>
+<h2 id="grpc">GRPC</h2>
+<p>简单来讲 gRPC 是一个 基于 HTTP/2 协议设计的 RPC 框架，它采用了 Protobuf 作为 IDL，具有以下特性：</p>
+<ul>
+<li>强大的IDL，使用Protocol Buffers作为数据交换的格式，支持v2、v3（推荐v3）</li>
+<li>跨语言、跨平台，也就是Grpc支持多种平台和语言</li>
+<li>支持HTTP2，双向传输、多路复用、认证等</li>
+</ul>
+<h3 id="grpc-vs-restful-api">gRPC vs. Restful API</h3>
+<p>gRPC和restful API都提供了一套通信机制，用于server/client模型通信，而且它们都使用http作为底层的传输协议(严格地说, gRPC使用的http2.0，而restful api则不一定)。不过gRPC还是有些特有的优势，如下：</p>
+<ul>
+<li>gRPC可以通过protobuf来定义接口，从而可以有更加严格的接口约束条件</li>
+<li>通过protobuf可以将数据序列化为二进制编码，这会大幅减少需要传输的数据量，从而大幅提高性能</li>
+<li>gRPC可以方便地支持流式通信</li>
+</ul>
+<h3 id="grpc流程图">GRPC流程图</h3>
+<p><img src="../../imgs/go_rpc03.jpg" alt="img"></p>
+<p>1.图中服务端使用的是C++语言开发的系统,客户端分别使用的是Android-Java开发的平台和Ruby语言开发的平台.gRPC可以在不同的语言开发的平台上使用.
+2.主要实现的流程为,在服务端实现自身定义的服务内的接口，并运行一个 gRPC 服务器来处理客户端的请求调用并将处理结果返回到客户端。在客户端拥有一个存根能够像服务端一样的方法。</p>
+<h3 id="grpc示例">GRPC示例</h3>
+<h4 id="目录结构">目录结构</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ tree
+</span></span><span class="line"><span class="cl">.
+</span></span><span class="line"><span class="cl">├── client.go
+</span></span><span class="line"><span class="cl">├── proto
+</span></span><span class="line"><span class="cl">│   ├── search.pb.go
+</span></span><span class="line"><span class="cl">│   └── search.proto
+</span></span><span class="line"><span class="cl">└── server.go
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="m">1</span> directory, <span class="m">4</span> files
+</span></span></code></pre></div><h4 id="idl">IDL</h4>
+<p>编写search.proto：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="nx">syntax</span> <span class="p">=</span> <span class="s">&#34;proto3&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">proto</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">service</span> <span class="nx">SearchService</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">rpc</span> <span class="nf">Search</span><span class="p">(</span><span class="nx">SearchRequest</span><span class="p">)</span> <span class="nf">returns</span> <span class="p">(</span><span class="nx">SearchResponse</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">option</span> <span class="nx">go_package</span> <span class="p">=</span><span class="s">&#34;./proto&#34;</span><span class="p">;</span> <span class="c1">// 指定RPC文件生成路径地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="nx">message</span> <span class="nx">SearchRequest</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span> <span class="nx">request</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nx">message</span> <span class="nx">SearchResponse</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span> <span class="nx">response</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><p>在 proto 文件夹下执行如下命令生成go文件：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-shell" data-lang="shell"><span class="line"><span class="cl">$ protoc --go_out<span class="o">=</span><span class="nv">plugins</span><span class="o">=</span>grpc:. *.proto
+</span></span></code></pre></div><p>执行完之后会生成search.pb.go。</p>
+<h4 id="server">server</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;net&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;google.golang.org/grpc&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">pb</span> <span class="s">&#34;../t2/proto&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">type</span> <span class="nx">SearchService</span> <span class="kd">struct</span><span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="o">*</span><span class="nx">SearchService</span><span class="p">)</span> <span class="nf">Search</span><span class="p">(</span><span class="nx">ctx</span> <span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span> <span class="nx">r</span> <span class="o">*</span><span class="nx">pb</span><span class="p">.</span><span class="nx">SearchRequest</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">pb</span><span class="p">.</span><span class="nx">SearchResponse</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">pb</span><span class="p">.</span><span class="nx">SearchResponse</span><span class="p">{</span><span class="nx">Response</span><span class="p">:</span> <span class="nx">r</span><span class="p">.</span><span class="nf">GetRequest</span><span class="p">()</span> <span class="o">+</span> <span class="s">&#34; welcome to study grpc!&#34;</span><span class="p">},</span> <span class="kc">nil</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">PORT</span> <span class="p">=</span> <span class="s">&#34;9001&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">server</span> <span class="o">:=</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">NewServer</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">pb</span><span class="p">.</span><span class="nf">RegisterSearchServiceServer</span><span class="p">(</span><span class="nx">server</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">SearchService</span><span class="p">{})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">lis</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">net</span><span class="p">.</span><span class="nf">Listen</span><span class="p">(</span><span class="s">&#34;tcp&#34;</span><span class="p">,</span> <span class="s">&#34;:&#34;</span><span class="o">+</span><span class="nx">PORT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;net.Listen err: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">server</span><span class="p">.</span><span class="nf">Serve</span><span class="p">(</span><span class="nx">lis</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>创建 gRPC Server 对象</li>
+<li>将 SearchService（其包含需要被调用的服务端接口）注册到 gRPC Server 的内部注册中心。这样可以在接受到请求时，通过内部的服务发现，发现该服务端接口并转接进行逻辑处理</li>
+<li>创建 Listen，监听 TCP 端口</li>
+<li>gRPC Server 开始 lis.Accept，直到 Stop 或 GracefulStop</li>
+</ul>
+<h4 id="client">client</h4>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;context&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="s">&#34;google.golang.org/grpc&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">pb</span> <span class="s">&#34;../t2/proto&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="nx">PORT</span> <span class="p">=</span> <span class="s">&#34;9001&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">conn</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">Dial</span><span class="p">(</span><span class="s">&#34;:&#34;</span><span class="o">+</span><span class="nx">PORT</span><span class="p">,</span> <span class="nx">grpc</span><span class="p">.</span><span class="nf">WithInsecure</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;grpc.Dial err: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">defer</span> <span class="nx">conn</span><span class="p">.</span><span class="nf">Close</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">client</span> <span class="o">:=</span> <span class="nx">pb</span><span class="p">.</span><span class="nf">NewSearchServiceClient</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">resp</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">client</span><span class="p">.</span><span class="nf">Search</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nf">Background</span><span class="p">(),</span> <span class="o">&amp;</span><span class="nx">pb</span><span class="p">.</span><span class="nx">SearchRequest</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">Request</span><span class="p">:</span> <span class="s">&#34;ares&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">})</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nx">log</span><span class="p">.</span><span class="nf">Fatalf</span><span class="p">(</span><span class="s">&#34;client.Search err: %v&#34;</span><span class="p">,</span> <span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nx">log</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;resp: %s&#34;</span><span class="p">,</span> <span class="nx">resp</span><span class="p">.</span><span class="nf">GetResponse</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></div><ul>
+<li>创建与服务端的连接交互</li>
+<li>创建 SearchService 的客户端对象</li>
+<li>发送 RPC 请求，等待同步响应，得到回调后返回响应结果</li>
+<li>输出响应结果</li>
+</ul>
+<h4 id="运行server及client">运行server及client</h4>
+<p><img src="../../imgs/go_rpc02.jpg" alt="img">
+<img src="../../imgs/go_rpc01.jpg" alt="img">
+至此，一个简单的GRPC示例已经跑起来了。</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='https://kk-karl.github.io/booklog/js/toc.js'></script>
+<link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/toc.css' />
+
+
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/gitalk.css'>
+<script src='https://kk-karl.github.io/booklog/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Your client ID',
+    clientSecret: 'Your client secret',
+    repo: 'kk-karl.github.io',
+    owner: 'kk-karl',
+    admin: ['kk-karl'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://kk-karl.github.io/booklog/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">© 2024-2099 mybooklog</li>
+      
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+</body>
+
+<script type="application/javascript" src="https://kk-karl.github.io/booklog/js/github-style.js"></script>
+
+
+
+
+</html>
