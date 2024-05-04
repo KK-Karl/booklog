@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编程 on mybooklog</title>
+    <link>https://kk-karl.github.io/booklog/tags/%E7%BC%96%E7%A8%8B/</link>
+    <description>Recent content in 编程 on mybooklog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2024-2099 mybooklog</copyright>
+    <lastBuildDate>Sun, 28 Apr 2024 09:45:52 +0800</lastBuildDate>
+    <atom:link href="https://kk-karl.github.io/booklog/tags/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GRPC学习及实践</title>
+      <link>https://kk-karl.github.io/booklog/post/myblg12/</link>
+      <pubDate>Sat, 27 Apr 2024 22:49:48 +0800</pubDate>
+      <guid>https://kk-karl.github.io/booklog/post/myblg12/</guid>
+      <description>GRPC学习及实践 RPC RPC 代指远程过程调用（Remote Procedure Call），它的调用包含了传输协议和编码（对象序列号）协议等等。允许运行于一台计算机的程序调用另一台计算机的子程序，而开发人员无需额外地为这个交互作用编程。 RPC具有简单、通用、安全、效率的特点，可以基于 HTTP 协议进行调用。&#xA;GRPC相关安装 安装GRPC 1、go get方式&#xA;$ go get -u google.golang.org/grpc 2、通过github 进入$GOTPATH目录，新建google.golang.org目录，拉取golang在github上的镜像库：&#xA;$ cd /usr/local/go/path/src $ mkdir google.golang.org $ cd google.golang.org/ $ git clone https://github.com/grpc/grpc-go $ mv grpc-go/ grpc/ Protoc Plugin编译器插件安装 $ go get -u github.com/golang/protobuf/protoc-gen-go 将Protoc Plugin的可执行文件从 GOPATH中移动到𝐺𝑂𝑃𝐴𝑇𝐻中移动到GOBIN 下&#xA;$ which protoc-gen-go /usr/local/bin/protoc-gen-go Protocol Buffers v3安装 $ wget https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-all-3.5.1.zip $ unzip protobuf-all-3.5.1.zip $ cd protobuf-3.5.1/ $ ./configure $ make $ make install $ protoc --version libprotoc 3.</description>
+    </item>
+    <item>
+      <title>GO语言包管理</title>
+      <link>https://kk-karl.github.io/booklog/post/myblg11/</link>
+      <pubDate>Sat, 27 Apr 2024 22:33:02 +0800</pubDate>
+      <guid>https://kk-karl.github.io/booklog/post/myblg11/</guid>
+      <description>GO语言包管理 包介绍 包（package）是多个Go源码的集合，go语言有很多内置包，比如fmt，os，io等。&#xA;定义包 main包是一个可执行的包，只应用程序的入口包，编译完会生成一个可执行文件。&#xA;一个目录下的同级文件归属一个包。 包名可以不和文件夹的名字一样，包名不能包含-符号。&#xA;package 包名 可见性 如果想在一个包中引用另外一个包里的标识符（如变量、常量、类型、函数等）时，该标识符必须是对外可见的（public）。在Go语言中只需要将标识符的首字母大写就可以。&#xA;// 首字母小写，外部包不可见，只能在当前包内使用 var num = 10 //首字母大写外部包可见，可在其他包中使用 const Name = &amp;#34;ares&amp;#34; // 首字母小写，外部包不可见，只能在当前包内使用 type person struct { name string } type Student struct { Name string //可在包外访问的方法 class string //仅限包内访问的字段 } type Payer interface { init() //仅限包内访问的方法 Pay() //可在包外访问的方法 } // 首字母大写，外部包可见，可在其他包中使用 func Add(x, y int) int { return x + y } func age() { // 首字母小写，外部包不可见，只能在当前包内使用 var Age = 18 // 函数局部变量，外部包不可见，只能在当前函数内使用 fmt.</description>
+    </item>
+  </channel>
+</rss>
