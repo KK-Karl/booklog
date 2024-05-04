@@ -1,7 +1,1 @@
-#/static/
-#/public/
-
-.idea
-*.idea
-
-#themes/
+/.idea/
