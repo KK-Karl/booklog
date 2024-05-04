@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='https://kk-karl.github.io/booklog/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/frameworks.min.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/github.min.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/github-style.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/light.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/dark.css' />
+    <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/syntax.css' />
+    <title>CAS框架 - mybooklog</title>
+    
+    <link rel="icon" type="image/x-icon" href='../../assets/favicon.ico'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    <meta name="description"
+  content="1、背景介绍 单点登录：Single Sign On,简称SSO，SSO使得在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。
+CAS框架：CAS（Central Authentication Service）是实现SSO单点登录的框架。
+2、盗一张学习CAS绝大多都看过的图以及执行部分分析 注：已分不清原创，此处就不给出地址了。
+从结构上看，CAS包含两个部分：CAS Server 和CAS Client需要独立部署，主要负责对用户的认证工作；CAS Client负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server.图1是CAS最基本的协议过程：
+CAS Client 与受保护的客户端应用部署在一起，以Filter方式保护 Web 应用的受保护资源，过滤从客户端过来的每一个 Web 请求，同时， CAS Client会分析HTTP 请求中是否包请求 Service Ticket( 上图中的 Ticket) ，如果没有，则说明该用户是没有经过认证的，于是，CAS Client会重定向用户请求到CAS Server（ Step 2 ）。 Step 3是用户认证过程，如果用户提供了正确的Credentials， CAS Server 会产生一个随机的 Service Ticket ，然后，缓存该 Ticket ，并且重定向用户到CAS Client（附带刚才产生的Service Ticket）， Service Ticket 是不可以伪造的，最后， Step 5 和 Step6是 CAS Client 和 CAS Server之间完成了一个对用户的身份核实，用Ticket查到 Username ，因为 Ticket是 CAS Server 产生的，因此，所以 CAS Server 的判断是毋庸置疑的。
+该协议完成了一个很简单的任务，所有与CAS的交互均采用SSL协议，确保ST和TGC的安全性。协议工作过程会有2此重定向过程，但是CAS Client与CAS Server之间进行ticket验证的过程对于用户是透明的。" />
+<meta name="keywords"
+  content='blog,java,life, google analytics' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://kk-karl.github.io/booklog/post/myblg05/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="CAS框架 - mybooklog" />
+<meta name="twitter:description"
+  content="1、背景介绍 单点登录：Single Sign On,简称SSO，SSO使得在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。
+CAS框架：CAS（Central Authentication Service）是实现SSO单点登录的框架。
+2、盗一张学习CAS绝大多都看过的图以及执行部分分析 注：已分不清原创，此处就不给出地址了。
+从结构上看，CAS包含两个部分：CAS Server 和CAS Client需要独立部署，主要负责对用户的认证工作；CAS Client负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server.图1是CAS最基本的协议过程：
+CAS Client 与受保护的客户端应用部署在一起，以Filter方式保护 Web 应用的受保护资源，过滤从客户端过来的每一个 Web 请求，同时， CAS Client会分析HTTP 请求中是否包请求 Service Ticket( 上图中的 Ticket) ，如果没有，则说明该用户是没有经过认证的，于是，CAS Client会重定向用户请求到CAS Server（ Step 2 ）。 Step 3是用户认证过程，如果用户提供了正确的Credentials， CAS Server 会产生一个随机的 Service Ticket ，然后，缓存该 Ticket ，并且重定向用户到CAS Client（附带刚才产生的Service Ticket）， Service Ticket 是不可以伪造的，最后， Step 5 和 Step6是 CAS Client 和 CAS Server之间完成了一个对用户的身份核实，用Ticket查到 Username ，因为 Ticket是 CAS Server 产生的，因此，所以 CAS Server 的判断是毋庸置疑的。
+该协议完成了一个很简单的任务，所有与CAS的交互均采用SSL协议，确保ST和TGC的安全性。协议工作过程会有2此重定向过程，但是CAS Client与CAS Server之间进行ticket验证的过程对于用户是透明的。" />
+<meta name="twitter:site" content="https://kk-karl.github.io/booklog/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="https://kk-karl.github.io/booklog/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="CAS框架 - mybooklog">
+<meta property="og:description"
+  content="1、背景介绍 单点登录：Single Sign On,简称SSO，SSO使得在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。
+CAS框架：CAS（Central Authentication Service）是实现SSO单点登录的框架。
+2、盗一张学习CAS绝大多都看过的图以及执行部分分析 注：已分不清原创，此处就不给出地址了。
+从结构上看，CAS包含两个部分：CAS Server 和CAS Client需要独立部署，主要负责对用户的认证工作；CAS Client负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server.图1是CAS最基本的协议过程：
+CAS Client 与受保护的客户端应用部署在一起，以Filter方式保护 Web 应用的受保护资源，过滤从客户端过来的每一个 Web 请求，同时， CAS Client会分析HTTP 请求中是否包请求 Service Ticket( 上图中的 Ticket) ，如果没有，则说明该用户是没有经过认证的，于是，CAS Client会重定向用户请求到CAS Server（ Step 2 ）。 Step 3是用户认证过程，如果用户提供了正确的Credentials， CAS Server 会产生一个随机的 Service Ticket ，然后，缓存该 Ticket ，并且重定向用户到CAS Client（附带刚才产生的Service Ticket）， Service Ticket 是不可以伪造的，最后， Step 5 和 Step6是 CAS Client 和 CAS Server之间完成了一个对用户的身份核实，用Ticket查到 Username ，因为 Ticket是 CAS Server 产生的，因此，所以 CAS Server 的判断是毋庸置疑的。
+该协议完成了一个很简单的任务，所有与CAS的交互均采用SSL协议，确保ST和TGC的安全性。协议工作过程会有2此重定向过程，但是CAS Client与CAS Server之间进行ticket验证的过程对于用户是透明的。" />
+<meta property="og:url" content="https://kk-karl.github.io/booklog/post/myblg05/" />
+<meta property="og:site_name" content="CAS框架" />
+<meta property="og:image"
+  content="https://kk-karl.github.io/booklog/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2024-04-14 14:25:09 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://kk-karl.github.io/booklog/">
+        <img class="octicon" height="32" width="32" src="../../images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <img height="24" class="octicon octicon-three-bars" width="24" src="../../images/github-mark-white.png">
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+              <input type="hidden" name="q" value="site:https://kk-karl.github.io/booklog/">
+            </label>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="https://kk-karl.github.io/booklog/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="../../images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  
+<div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="https://kk-karl.github.io/booklog/">
+                  <img class=" avatar-user"
+                    src="../../images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="https://kk-karl.github.io/booklog/">kk-karl</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="https://kk-karl.github.io/booklog/post/myblg05/">CAS框架</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sun, 14 Apr 2024 14:25:09 &#43;0800"
+                    class="no-wrap">
+                    Sun, 14 Apr 2024 14:25:09 &#43;0800</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Tue, 23 Apr 2024 13:59:21 &#43;0800"
+                    class="no-wrap">
+                    Tue, 23 Apr 2024 13:59:21 &#43;0800</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      3252 Words
+                     <span class="file-info-divider"></span>
+                                        1 min
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                    
+                    
+                    <a class="muted-link mr-3" href="../../tags/%E6%8A%80%E6%9C%AF" >
+                      <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                        <path fill-rule="evenodd"
+                          d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                        </path>
+                      </svg>
+                      技术
+                    </a>
+                    
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><h2 id="1背景介绍">1、背景介绍</h2>
+<p>单点登录：Single Sign On,简称SSO，SSO使得在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。</p>
+<p>CAS框架：CAS（Central Authentication Service）是实现SSO单点登录的框架。</p>
+<h2 id="2盗一张学习cas绝大多都看过的图以及执行部分分析">2、盗一张学习CAS绝大多都看过的图以及执行部分分析</h2>
+<p>注：已分不清原创，此处就不给出地址了。</p>
+<p><img src="https://img-blog.csdn.net/20160905134018381" alt="这里写图片描述"></p>
+<blockquote>
+<p>从结构上看，CAS包含两个部分：CAS Server 和CAS Client需要独立部署，主要负责对用户的认证工作；CAS
+Client负责处理对客户端受保护资源的访问请求，需要登录时，重定向到CAS Server.图1是CAS最基本的协议过程：</p>
+<p>CAS Client 与受保护的客户端应用部署在一起，以Filter方式保护 Web 应用的受保护资源，过滤从客户端过来的每一个 Web
+请求，同时， CAS Client会分析HTTP 请求中是否包请求 Service Ticket( 上图中的 Ticket)
+，如果没有，则说明该用户是没有经过认证的，于是，CAS Client会重定向用户请求到CAS Server（ Step 2 ）。 Step
+3是用户认证过程，如果用户提供了正确的Credentials， CAS Server 会产生一个随机的 Service Ticket
+，然后，缓存该 Ticket ，并且重定向用户到CAS Client（附带刚才产生的Service Ticket）， Service
+Ticket 是不可以伪造的，最后， Step 5 和 Step6是 CAS Client 和 CAS
+Server之间完成了一个对用户的身份核实，用Ticket查到 Username ，因为 Ticket是 CAS Server
+产生的，因此，所以 CAS Server 的判断是毋庸置疑的。</p>
+<p>该协议完成了一个很简单的任务，所有与CAS的交互均采用SSL协议，确保ST和TGC的安全性。协议工作过程会有2此重定向过程，但是CAS
+Client与CAS Server之间进行ticket验证的过程对于用户是透明的。</p>
+<p>总结一下，如下：</p>
+<p>访问服务： SSO 客户端发送请求访问应用系统提供的服务资源。</p>
+<p>定向认证： SSO 客户端会重定向用户请求到 SSO 服务器。</p>
+<p>用户认证：用户身份认证。</p>
+<p>发放票据： SSO 服务器会产生一个随机的 Service Ticket 。</p>
+<p>验证票据： SSO 服务器验证票据 Service Ticket 的合法性，验证通过后，允许客户端访问服务。</p>
+<p>传输用户信息： SSO 服务器验证票据通过后，传输用户认证结果信息给客户端。</p>
+</blockquote>
+<h1 id="二在云里雾里进一步搜索探究">二、在云里雾里进一步搜索、探究</h1>
+<p>先给出此部分内容出处： <a href="http://www.imooc.com/article/3558">《SSO CAS单点系列》之 实现一个SSO认证服务器是这样的</a>，以下标红部分为自己的疑问。</p>
+<h2 id="1登录信息传递">1、登录信息传递</h2>
+<p><img src="https://img-blog.csdn.net/20160905134331993" alt="这里写图片描述">
+用户首次登录时流程如下：</p>
+<p>1)、用户浏览器访问系统A需登录受限资源，此时进行登录检查，发现未登录，然后进行获取票据操作，发现没有票据。</p>
+<p>2)、系统A发现该请求需要登录，将请求重定向到认证中心，获取全局票据操作，没有，进行登录。</p>
+<p>3)、认证中心呈现登录页面，用户登录，登录成功后，认证中心重定向请求到系统A，并附上认证通过令牌，此时认证中心同时生成了全局票据。</p>
+<p>4)、此时再次进行登录检查，发现未登录，然后再次获取票据操作，此时可以获得票据(令牌)，系统A与认证中心通信，验证令牌有效,证明用户已登录。</p>
+<p>5)、系统A将受限资源返给用户。</p>
+<p><img src="https://img-blog.csdn.net/20160905134415791" alt="这里写图片描述">
+已登录用户首次访问应用群中系统B时：</p>
+<p>1)、浏览器访问另一应用B需登录受限资源，此时进行登录检查，发现未登录，然后进行获取票据操作，发现没有票据。</p>
+<p>2)、系统B发现该请求需要登录，将请求重定向到认证中心，获取全局票据操作，获取全局票据，可以获得，认证中心发现已经登录。</p>
+<p>3)、认证中心发放临时票据(令牌)，并携带该令牌重定向到系统B。</p>
+<p>4)、此时再次进行登录检查，发现未登录，然后再次获取票据操作，此时可以获得票据(令牌)，系统B与认证中心通信，验证令牌有效,证明用户已登录。</p>
+<p>5)、系统B将受限资源返回给客户端。</p>
+<h2 id="2登录状态判断">2、登录状态判断</h2>
+<p>用户到认证中心登录后，用户和认证中心之间建立起了会话，我们把这个会话称为全局会话。当用户后续访问系统应用时，我们不可能每次应用请求都到认证中心去判定是否登录，这样效率非常低下，这也是单Web应用不需要考虑的。</p>
+<p>我们可以在系统应用和用户浏览器之间建立起局部会话，局部会话保持了客户端与该系统应用的登录状态，局部会话依附于全局会话存在，全局会话消失，局部会话必须消失。</p>
+<p>用户访问应用时，首先判断局部会话是否存在，如存在，即认为是登录状态，无需再到认证中心去判断。如不存在，就重定向到认证中心判断全局会话是否存在，如存在，按1提到的方式通知该应用，该应用与客户端就建立起它们之间局部会话，下次请求该应用，就不去认证中心验证了。</p>
+<h2 id="3登出">3、登出</h2>
+<p>用户在一个系统登出了，访问其它子系统，也应该是登出状态。要想做到这一点，应用除结束本地局部会话外，还应该通知认证中心该用户登出。</p>
+<p>认证中心接到登出通知，即可结束全局会话，同时需要通知所有已建立局部会话的子系统，将它们的局部会话销毁。这样，用户访问其它应用时，都显示已登出状态。</p>
+<p>整个登出流程如下：</p>
+<p>1)、客户端向应用A发送登出Logout请求。
+2)、应用A取消本地会话，同时通知认证中心，用户已登出。
+3)、应用A返回客户端登出请求。
+4)、认证中心通知所有用户登录访问的应用，用户已登出。</p>
+<h1 id="三拨开云雾见青天">三、拨开云雾见青天</h1>
+<h2 id="1对上面所有标红疑问一一解释">1、对上面所有标红疑问一一解释</h2>
+<p>1)、问：系统A是如何发现该请求需要登录重定向到认证中心的？
+答：用户通过浏览器地址栏访问系统A，系统A(也可以称为CAS客户端)去Cookie中拿JSESSION，即在Cookie中维护的当前回话session的id，如果拿到了，说明用户已经登录，如果未拿到，说明用户未登录。</p>
+<p>2)、问：系统A重定向到认证中心，发送了什么信息或者地址变成了什么？
+答：假如系统A的地址为<code>http://a:8080/</code>，CAS认证中心的服务地址为<code>http://cas.server:8080/</code>，那么重点向前后地址变化为：<code>http://a:8080/</code>————&gt;<code>ttp://cas.server:8080/?service=http://a:8080/</code>，由此可知，重点向到认证中心，认证中心拿到了当前访问客户端的地址。</p>
+<p>3)、问：登录成功后，认证中心重定向请求到系统A，认证通过令牌是如何附加发送给系统A的？
+答：重定向之后的地址栏变成：<code>http://a:8080/?ticket=ST-XXXX-XXX</code>，将票据以ticket为参数名的方式通过地址栏发送给系统A</p>
+<p>4)、问：系统A验证令牌，怎样操作证明用户登录的？
+答：系统A通过地址栏获取ticket的参数值ST票据，然后从后台将ST发送给CAS server认证中心验证，验证ST有效后，CAS server返回当前用户登录的相关信息，系统A接收到返回的用户信息，并为该用户创建session会话，会话id由cookie维护，来证明其已登录。</p>
+<p>5)、问：登录B系统，认证中心是如何判断用户已经登录的？
+答：在系统A登录成功后，用户和认证中心之间建立起了全局会话，这个全局会话就是TGT(Ticket Granting Ticket)，TGT位于CAS服务器端，TGT并没有放在Session中，也就是说，CAS全局会话的实现并没有直接使用Session机制，而是利用了Cookie自己实现的，这个Cookie叫做TGC(Ticket Granting Cookie)，它存放了TGT的id,保存在用户浏览器上。
+相关内容分析可以查看：<a href="http://www.imooc.com/article/3720">《SSO CAS单点系列》之 实操！轻松玩转SSO CAS就这么简单(相识篇)</a></p>
+<p>用户发送登录系统B的请求，首先会去Cookie中拿JSESSION，因为系统B并未登录过，session会话还未创建，JSESSION的值是拿不到的，然后将请求重定向到CAS认证中心，CAS认证中心先去用户浏览器中拿TGC的值，也就是全局会话id，如果存在则代表用户在认证中心已经登录，附带上认证令牌重定向到系统B。</p>
+<p>上面登录状态判断也是这个逻辑。</p>
+<p>6)、问：登出的过程，各个系统对当前用户都做了什么？
+答：认证中心清除当前用户的全局会话TGT，同时清掉cookie中TGT的id：TGC；
+然后是各个客户端系统，比如系统A、系统B，清除局部会话session，同时清掉cookie中session会话id：jsession</p>
+<h2 id="2对系统a登录流程图添加注释查看">2、对系统A登录流程图添加注释，查看</h2>
+<p><img src="https://img-blog.csdn.net/20160905135324296" alt="这里写图片描述"></p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='https://kk-karl.github.io/booklog/js/toc.js'></script>
+<link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/toc.css' />
+
+
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/gitalk.css'>
+<script src='https://kk-karl.github.io/booklog/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Your client ID',
+    clientSecret: 'Your client secret',
+    repo: 'kk-karl.github.io',
+    owner: 'kk-karl',
+    admin: ['kk-karl'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://kk-karl.github.io/booklog/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">© 2024-2099 mybooklog</li>
+      
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+</body>
+
+<script type="application/javascript" src="https://kk-karl.github.io/booklog/js/github-style.js"></script>
+
+
+
+
+</html>

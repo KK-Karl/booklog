@@ -1,0 +1,70 @@
+
+#baseURL = 'https://example.org/'
+#baseURL = 'https://kk-karl.github.io/'
+baseURL = 'https://kk-karl.github.io/booklog'
+#baseURL = 'https://kk-karl.github.io'
+#languageCode = 'en-us'
+languageCode = 'zh-cn'
+title = 'mybooklog'
+
+
+copyright = '© 2024-2099 mybooklog'
+disqusShortname = '111222'
+theme = 'github-style'
+#theme = 'hugo-vitae'
+relativeURLs = true
+relURL = 'https://kk-karl.github.io/booklog'
+#uglyURLs = true
+buildfuture = true
+pygmentsUseClasses = true
+pygmentsCodeFences = true
+#googleAnalytics = 'UA-11111111-1'
+
+[params]
+author = "kk-karl"
+description = "黑夜给了我黑色的眼睛，我却用它寻找光明"
+github = "kk-karl"
+facebook = "kk-karl"
+twitter = "kk-karl"
+linkedin = "kk-karl"
+instagram = "kk-karl"
+tumblr = "kk-karl"
+email = "zhaoyimin789@126.com"
+url = "https://kk-karl.github.io/"
+keywords = "blog,java,life, google analytics"
+rss = true
+lastmod = true
+favicon = "/assets/favicon.ico"
+avatar = "/images/avatar.png"
+headerIcon = "/images/github-mark-white.png"
+location = "China HeFei"
+userStatusEmoji = "😀"
+enableGitalk = true
+
+[params.gitalk]
+clientID = "Your client ID" # Your client ID
+clientSecret = "Your client secret" # Your client secret
+repo = "kk-karl.github.io" # 您的博客的github地址Repository name，例如：xxxx.github.io
+owner = "kk-karl" # 您的GitHub ID
+admin = "kk-karl" # 您的GitHub ID
+id = "location.pathname" # 文章页面的链接地址就是ID
+labels = "gitalk" # Github issue labels. If you used to use Gitment, you can change it
+perPage = 4 # Pagination size, with maximum 100.
+pagerDirection = "last" # Comment sorting direction, available values are 'last' and 'first'.
+createIssueManually = false # 设置为true，如果是管理员登录，会自动创建issue，如果是false，需要管理员手动添加第一个评论(issue)
+distractionFreeMode = true # Enable hot key (cmd|ctrl + enter) submit comment.
+proxy = "https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token" # 可以自行添加反向代理
+[[params.links]]
+title = "Link"
+href = "https://kk-karl.github.io"
+[[params.links]]
+title = "Link2"
+href = "https://kk-karl.github.io"
+icon = "/images/avatar.png"
+
+[frontmatter]
+lastmod = ["lastmod", ":fileModTime", ":default"]
+
+[services]
+[services.googleAnalytics]
+ID = "UA-123456-789"

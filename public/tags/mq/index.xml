@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MQ on mybooklog</title>
+    <link>https://kk-karl.github.io/booklog/tags/mq/</link>
+    <description>Recent content in MQ on mybooklog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2024-2099 mybooklog</copyright>
+    <lastBuildDate>Tue, 23 Apr 2024 13:59:21 +0800</lastBuildDate>
+    <atom:link href="https://kk-karl.github.io/booklog/tags/mq/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RocketMQ学习</title>
+      <link>https://kk-karl.github.io/booklog/post/myblg03/</link>
+      <pubDate>Thu, 11 Apr 2024 13:47:41 +0800</pubDate>
+      <guid>https://kk-karl.github.io/booklog/post/myblg03/</guid>
+      <description>MQ有什么用 解耦 我觉得从某种角度来说，微服务促进了MQ的蓬勃发展，本来一个系统有N多个模块，所有模块都强耦合在一起，现在微服务了，一个模块就是一个系统，系统之间肯定需要交互，交互有三种常见的方法，一种是RPC，一种是HTTP，一种就是MQ了。&#xA;异步 原本一个业务分为N步，要一步一步处理，才能把最终的结果返回给用户，现在有了MQ，先把最关键的部分处理完毕，然后发送消息到MQ，直接返回给用户OK，至于后面的步骤在后台慢慢处理吧，真乃提升用户体验的神器。&#xA;削峰 某个接口的请求量突然飙升，势必会对应用服务器、数据库服务器造成很大的压力，现在有了MQ，来多少请求都不在怕的，后台慢慢处理呗。&#xA;RocketMQ简介 RocketMQ是用Java编写的，是阿里开源的消息中间件，吸收了Kafka很多优点。Kafka也是比较热门的消息中间件，不过Kafka是用Scala编写的，不利于Java程序员去阅读源码，也不利于Java程序员做一些定制化的开发。接触过Kafka的小伙伴都知道，要用好Kafka实属不易，相对来说，RocketMQ简单多了，而且RocketMQ有阿里加持，经历了N次双11的考验，比较适合国内互联网公司，所以国内使用RocketMQ的公司很多。&#xA;RocketMQ四大组件 图片来自https://gitee.com/mirrors/rocketmq/blob/master/docs/cn/architecture.md&#xA;可以看到RocketMQ主要有四个组件：&#xA;NameServer 无状态服务，注册中心，可集群部署，但是NameServer节点之间没有任何数据交互。 Broker会以定时把Topic路由信息上报给所有的NameServer。Producer、Consumer会随机选择一个NameServer定时Topic更新路由信息。 Topic路由信息在NameServer集群中采用最终一致性。 保证AP。 Broker RocketMQ的服务端，用于存储消息、分发消息。 Broker会定时把自身拥有的所有的Topic路由信息上报给NameServer。 Broker有两个角色：Master、Follower，Master承担读（消费消息）写（生产消息）操作，如果Master比较忙，或者不可用，Follower可以承担读操作。BrokerId=0，代表是Matser，BrokerId!=0，代表是Follower，需要注意的有两点： 其一，目前为止，BrokerId=1的Follower才可以承担读操作； 其二，只有较高版本的RocketMQ才支持当Master节点挂掉，Follower自动升级到Master。 Producer 生产者，每隔一定时间向NameServer发起Topic的路由信息查询。&#xA;Consumer 消费者，每隔一定时间向NameServer发起Topic的路由信息查询。&#xA;为什么注册中心不选用Zookeeper 其实，在低版本的RocketMQ中，确实是选用Zookeeper作为注册中心的，但是后面改成了现在的NameServer，猜想主要原因是：&#xA;RocketMQ已经是一个中间件了，不想再依赖其他中间件。 Zookeeper比较重，有很多功能RocketMQ是用不到的，不如写一个轻量级的注册中心。 Zookeeper是CP，一旦触发领导选举，那么注册中心就不可用了，而RocketMQ的注册中心，不需要强一致性，只要保证最终一致性。 RocketMQ消息领域模型 Message 传输的消息。 消息必须有Topic。 消息可以有多个Tag和多个Key，可以看做消息的附加属性。 Topic 一类消息的集合。 每个消息必须有一个Topic。 消息的第一级类型。 Tag 一个消息除了有Topic之外，还可以有Tag，用来细分同一个Topic下的不同种类的消息。 Tag不是必须的。 消息的第二级类型。 Group 分为ProducerGroup，ConsumerGroup，我们更多的是关注ConsumerGroup，ConsumerGroup包含多个Consumer。&#xA;在集群消费模式下，一个ConsumerGroup下的Consumer共同消费一个Topic，且每个Consumer会被分配到N个队列，但是一个队列只会被一个Consumer消费，不同的ConsumerGroup可以消费同一个Topic，一条消息会被订阅此Topic的所有ConsumerGroup消费。&#xA;Queue 一个Topic默认包含四个Queue。 在集群消费模式下，同一个ConsumerGroup中的Consumer可以消费多个Queue的消息，但是一个Queue只能被一个Consumer消费。 Queue中的消息是有序的。 分为读Queue和写Queue，一般来说，读Queue的数量和写Queue的数量是一致的，否则很容易出问题。 消费模式 消费模式有两种：Clustering（集群消费）和Broadcasting（广播消费）。&#xA;和其他MQ不同，其他MQ是在发送消息的时候，指定是集群消费还是广播消费，RocketMQ是在消费者端设置是集群消费还是广播消费。&#xA;Clustering（集群消费） 默认情况下是集群消费模式，该模式下，ConsumerGroup所有的Consumer共同消费一个Topic的消息，每个Consumer负责消费N个队列的消息（N也可能为1，甚至是0，没有分配到队列），但是一个队列只会被一个Consumer消费。如果某个Consumer挂掉，ConsumerGroup下的其他Consumer会接替挂掉的Consumer继续消费。&#xA;集群消费模式下，消费进度维护在Broker端，存储路径为${ROCKET_HOME}/store/config/ consumerOffset.json，如下图所示： 使用topicName@consumerGroupName为Key，消费进度为Value，Value的形式是queueId:offset ，说明如果有多个ConsumerGroup，每个ConsumerGroup的消费进度是不同的，需要分开来存储。&#xA;Broadcasting（广播消费） 广播消费消息会发给ConsumerGroup中所有的Consumer。&#xA;广播消费模式下，消费进度维护在Consumer端。&#xA;消费队列负载算法与重平衡机制 消费队列负载算法 我们知道了在集群消费模式下，ConsumerGroup下所有的Consumer共同消费一个Topic的消息，每个Consumer负责消费N个队列的消息，那么具体是如何分配的呢？这就涉及到消费队列负载算法了。&#xA;RocketMQ提供了众多的消费队列负载算法，其中最常用的是两种算法，即AllocateMessageQueueAveragely、AllocateMessageQueueAveragelyByCircle。下面我们来看下这两个算法的区别。&#xA;假设，现在一个Topic有16个队列，用q0~q15表示，有3个Consumer，用c0-c2表示。</description>
+    </item>
+  </channel>
+</rss>

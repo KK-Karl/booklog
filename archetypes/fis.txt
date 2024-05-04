@@ -1,0 +1,75 @@
+
+
+
+### 01
+
+
+---
+title: "{{ replace .TranslationBaseName "-" " " | title }}"
+subtitle: ""
+date: {{ .Date }}
+lastmod: {{ .Date }}
+draft: true
+author: ""
+authorLink: ""
+license: ""
+tags: [""]
+categories: [""]
+featuredImage: ""
+featuredImagePreview: ""
+summary: ""
+hiddenFromHomePage: false
+hiddenFromSearch: false
+toc:
+enable: true
+auto: true
+mapbox:
+share:
+enable: true
+comment:
+enable: true
+---
+
+
+## 02
+
+---
+title: "{{ replace .Name "-" " " | title }}"
+author: ""
+type: ""
+date: {{ .Date }}
+subtitle: ""
+image: ""
+tags: []
+---
+
+## 03
+
+---
+title: "{{ replace .Name "-" " " | title }}"
+author: ""
+type: ""
+date: {{ .Date }}
+subtitle: ""
+image: ""
+tags: []
+draft: false
+toc:
+enable: true
+auto: true
+mapbox:
+share:
+enable: true
+comment:
+enable: true
+---
+
+
+### 04
+
+hugo --theme=github-style --buildDrafts
+hugo --theme=github-style --baseUrl="(仓库地址)" --buildDrafts
+hugo --theme=github-style --baseURL="https://kk-karl.github.io/ebook/" --buildDrafts
+hugo --theme=github-style --baseURL="https://kk-karl.github.io/booklog/" --buildDrafts
+hugo --theme=github-style --baseURL="https://kk-karl.github.io/booklog" --buildDrafts
+hugo --theme=github-style --baseURL="https://kk-karl.github.io/booklog/" --watch --buildDrafts
