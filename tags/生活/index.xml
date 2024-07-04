@@ -7,8 +7,15 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>© 2024-2099 mybooklog</copyright>
-    <lastBuildDate>Mon, 15 Apr 2024 15:12:18 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jul 2024 00:11:21 +0800</lastBuildDate>
     <atom:link href="https://kk-karl.github.io/booklog/tags/%E7%94%9F%E6%B4%BB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>生活杂谈</title>
+      <link>https://kk-karl.github.io/booklog/post/myblg14/</link>
+      <pubDate>Fri, 05 Jul 2024 00:00:40 +0800</pubDate>
+      <guid>https://kk-karl.github.io/booklog/post/myblg14/</guid>
+      <description>生活穿搭 01 02 03 04 05 以上图片 来自互联网 </description>
+    </item>
     <item>
       <title>SimpleDateFormat的线程安全问题以及四种解决办法</title>
       <link>https://kk-karl.github.io/booklog/post/myblg04/</link>
