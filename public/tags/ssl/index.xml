@@ -7,14 +7,14 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>© 2024-2099 mybooklog</copyright>
-    <lastBuildDate>Tue, 23 Apr 2024 13:59:21 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jul 2024 23:32:44 +0800</lastBuildDate>
     <atom:link href="https://kk-karl.github.io/booklog/tags/ssl/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>java导入SSL证书</title>
       <link>https://kk-karl.github.io/booklog/post/%E6%88%91%E7%9A%84%E8%AE%A1%E5%88%92%E7%9B%AE%E6%A0%87/</link>
       <pubDate>Mon, 15 Apr 2024 14:01:37 +0800</pubDate>
       <guid>https://kk-karl.github.io/booklog/post/%E6%88%91%E7%9A%84%E8%AE%A1%E5%88%92%E7%9B%AE%E6%A0%87/</guid>
-      <description>这个错误通常是由于您正在尝试连接到使用自签名证书或未经受信任的根证书颁发机构签发的证书的SSL站点。&#xA;要解决此问题，有以下几种方法：&#xA;01、导入SSL证书 将SSL证书导入到您的Java keystore中。可以使用keytool工具将证书添加到Java keystore。使用以下命令：&#xA;keytool -importcert -file certificate_file -alias alias_name -keystore keystore_file&#xA;其中certificate_file是您要导入的证书文件，alias_name是别名，keystore_file是Java keystore文件的路径和名称。&#xA;02、禁用证书验证 如果您不想导入证书，可以在您的Java代码中禁用SSL证书验证。这是不推荐的，因为这可能会带来安全风险。但是，如果您只是在开发环境中使用SSL站点，并且您知道站点是安全的，则可以使用以下代码禁用证书验证：&#xA;TrustManager[] trustAllCerts = new TrustManager[] {&#xD;new X509TrustManager() {&#xD;public java.security.cert.X509Certificate[] getAcceptedIssuers() {&#xD;return null;&#xD;}&#xD;public void checkClientTrusted(X509Certificate[] certs, String authType) {&#xD;}&#xD;public void checkServerTrusted(X509Certificate[] certs, String authType) {&#xD;}&#xD;}&#xD;};&#xD;SSLContext sc = SSLContext.getInstance(&amp;#34;SSL&amp;#34;);&#xD;sc.init(null, trustAllCerts, new java.security.SecureRandom());&#xD;HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory()); 03、更新Java证书存储库 如果您的Java证书存储库已过期或缺少必要的根证书颁发机构，则可能需要更新Java证书存储库。可以从各种证书颁发机构网站下载最新的根证书并将其添加到Java证书存储库中。&#xA;这些解决方案可能会因您的具体情况而异。如果您仍然无法解决问题，请查看日志以获取更多信息，并考虑联系站点管理员以获取帮助。</description>
+      <description>这个错误通常是由于您正在尝试连接到使用自签名证书或未经受信任的根证书颁发机构签发的证书的SSL站点。&#xA;要解决此问题，有以下几种方法：&#xA;01、导入SSL证书 将SSL证书导入到您的Java keystore中。可以使用keytool工具将证书添加到Java keystore。使用以下命令：&#xA;keytool -importcert -file certificate_file -alias alias_name -keystore keystore_file&#xA;其中certificate_file是您要导入的证书文件，alias_name是别名，keystore_file是Java keystore文件的路径和名称。&#xA;02、禁用证书验证 如果您不想导入证书，可以在您的Java代码中禁用SSL证书验证。这是不推荐的，因为这可能会带来安全风险。但是，如果您只是在开发环境中使用SSL站点，并且您知道站点是安全的，则可以使用以下代码禁用证书验证：&#xA;TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() { public java.security.cert.X509Certificate[] getAcceptedIssuers() { return null; } public void checkClientTrusted(X509Certificate[] certs, String authType) { } public void checkServerTrusted(X509Certificate[] certs, String authType) { } } }; SSLContext sc = SSLContext.getInstance(&amp;#34;SSL&amp;#34;); sc.init(null, trustAllCerts, new java.security.SecureRandom()); HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory()); 03、更新Java证书存储库 如果您的Java证书存储库已过期或缺少必要的根证书颁发机构，则可能需要更新Java证书存储库。可以从各种证书颁发机构网站下载最新的根证书并将其添加到Java证书存储库中。&#xA;这些解决方案可能会因您的具体情况而异。如果您仍然无法解决问题，请查看日志以获取更多信息，并考虑联系站点管理员以获取帮助。</description>
     </item>
   </channel>
 </rss>

@@ -73,3 +73,9 @@ hugo --theme=github-style --baseURL="https://kk-karl.github.io/ebook/" --buildDr
 hugo --theme=github-style --baseURL="https://kk-karl.github.io/booklog/" --buildDrafts
 hugo --theme=github-style --baseURL="https://kk-karl.github.io/booklog" --buildDrafts
 hugo --theme=github-style --baseURL="https://kk-karl.github.io/booklog/" --watch --buildDrafts
+
+
+### 05 content 生成命令
+
+hugo new post/myblg13.md
+hugo server
