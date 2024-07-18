@@ -1,6 +1,7 @@
 #/static/
-#/public/
 
+
+/public/
 .idea
 *.idea
 
