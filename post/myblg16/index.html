@@ -10,7 +10,7 @@
     <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/light.css' />
     <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/dark.css' />
     <link rel="stylesheet" href='https://kk-karl.github.io/booklog/css/syntax.css' />
-    <title>java导入SSL证书 - mybooklog</title>
+    <title>美文精选（02） - mybooklog</title>
     
     <link rel="icon" type="image/x-icon" href='../../assets/favicon.ico'>
     
@@ -18,31 +18,17 @@
 
     
     <meta name="description"
-  content="这个错误通常是由于您正在尝试连接到使用自签名证书或未经受信任的根证书颁发机构签发的证书的SSL站点。
-要解决此问题，有以下几种方法：
-01、导入SSL证书 将SSL证书导入到您的Java keystore中。可以使用keytool工具将证书添加到Java keystore。使用以下命令：
-keytool -importcert -file certificate_file -alias alias_name -keystore keystore_file
-其中certificate_file是您要导入的证书文件，alias_name是别名，keystore_file是Java keystore文件的路径和名称。
-02、禁用证书验证 如果您不想导入证书，可以在您的Java代码中禁用SSL证书验证。这是不推荐的，因为这可能会带来安全风险。但是，如果您只是在开发环境中使用SSL站点，并且您知道站点是安全的，则可以使用以下代码禁用证书验证：
-TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {public java.security.cert.X509Certificate[] getAcceptedIssuers() {return null;}public void checkClientTrusted(X509Certificate[] certs, String authType) {}public void checkServerTrusted(X509Certificate[] certs, String authType) {}}};SSLContext sc = SSLContext.getInstance(&amp;#34;SSL&amp;#34;);sc.init(null, trustAllCerts, new java.security.SecureRandom());HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory()); 03、更新Java证书存储库 如果您的Java证书存储库已过期或缺少必要的根证书颁发机构，则可能需要更新Java证书存储库。可以从各种证书颁发机构网站下载最新的根证书并将其添加到Java证书存储库中。
-这些解决方案可能会因您的具体情况而异。如果您仍然无法解决问题，请查看日志以获取更多信息，并考虑联系站点管理员以获取帮助。" />
+  content="经典美文节选 名人故事 sdfsdfsdsfsdf " />
 <meta name="keywords"
-  content='blog,java,life, google analytics' />
+  content=', ' />
 <meta name="robots" content="noodp" />
-<link rel="canonical" href="https://kk-karl.github.io/booklog/post/%E6%88%91%E7%9A%84%E8%AE%A1%E5%88%92%E7%9B%AE%E6%A0%87/" />
+<link rel="canonical" href="https://kk-karl.github.io/booklog/post/myblg16/" />
 
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="java导入SSL证书 - mybooklog" />
+<meta name="twitter:title" content="美文精选（02） - mybooklog" />
 <meta name="twitter:description"
-  content="这个错误通常是由于您正在尝试连接到使用自签名证书或未经受信任的根证书颁发机构签发的证书的SSL站点。
-要解决此问题，有以下几种方法：
-01、导入SSL证书 将SSL证书导入到您的Java keystore中。可以使用keytool工具将证书添加到Java keystore。使用以下命令：
-keytool -importcert -file certificate_file -alias alias_name -keystore keystore_file
-其中certificate_file是您要导入的证书文件，alias_name是别名，keystore_file是Java keystore文件的路径和名称。
-02、禁用证书验证 如果您不想导入证书，可以在您的Java代码中禁用SSL证书验证。这是不推荐的，因为这可能会带来安全风险。但是，如果您只是在开发环境中使用SSL站点，并且您知道站点是安全的，则可以使用以下代码禁用证书验证：
-TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {public java.security.cert.X509Certificate[] getAcceptedIssuers() {return null;}public void checkClientTrusted(X509Certificate[] certs, String authType) {}public void checkServerTrusted(X509Certificate[] certs, String authType) {}}};SSLContext sc = SSLContext.getInstance(&amp;#34;SSL&amp;#34;);sc.init(null, trustAllCerts, new java.security.SecureRandom());HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory()); 03、更新Java证书存储库 如果您的Java证书存储库已过期或缺少必要的根证书颁发机构，则可能需要更新Java证书存储库。可以从各种证书颁发机构网站下载最新的根证书并将其添加到Java证书存储库中。
-这些解决方案可能会因您的具体情况而异。如果您仍然无法解决问题，请查看日志以获取更多信息，并考虑联系站点管理员以获取帮助。" />
+  content="经典美文节选 名人故事 sdfsdfsdsfsdf " />
 <meta name="twitter:site" content="https://kk-karl.github.io/booklog/" />
 <meta name="twitter:creator" content="zhaoym" />
 <meta name="twitter:image"
@@ -50,24 +36,17 @@ TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {pub
 
 
 <meta property="og:type" content="article" />
-<meta property="og:title" content="java导入SSL证书 - mybooklog">
+<meta property="og:title" content="美文精选（02） - mybooklog">
 <meta property="og:description"
-  content="这个错误通常是由于您正在尝试连接到使用自签名证书或未经受信任的根证书颁发机构签发的证书的SSL站点。
-要解决此问题，有以下几种方法：
-01、导入SSL证书 将SSL证书导入到您的Java keystore中。可以使用keytool工具将证书添加到Java keystore。使用以下命令：
-keytool -importcert -file certificate_file -alias alias_name -keystore keystore_file
-其中certificate_file是您要导入的证书文件，alias_name是别名，keystore_file是Java keystore文件的路径和名称。
-02、禁用证书验证 如果您不想导入证书，可以在您的Java代码中禁用SSL证书验证。这是不推荐的，因为这可能会带来安全风险。但是，如果您只是在开发环境中使用SSL站点，并且您知道站点是安全的，则可以使用以下代码禁用证书验证：
-TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {public java.security.cert.X509Certificate[] getAcceptedIssuers() {return null;}public void checkClientTrusted(X509Certificate[] certs, String authType) {}public void checkServerTrusted(X509Certificate[] certs, String authType) {}}};SSLContext sc = SSLContext.getInstance(&amp;#34;SSL&amp;#34;);sc.init(null, trustAllCerts, new java.security.SecureRandom());HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory()); 03、更新Java证书存储库 如果您的Java证书存储库已过期或缺少必要的根证书颁发机构，则可能需要更新Java证书存储库。可以从各种证书颁发机构网站下载最新的根证书并将其添加到Java证书存储库中。
-这些解决方案可能会因您的具体情况而异。如果您仍然无法解决问题，请查看日志以获取更多信息，并考虑联系站点管理员以获取帮助。" />
-<meta property="og:url" content="https://kk-karl.github.io/booklog/post/%E6%88%91%E7%9A%84%E8%AE%A1%E5%88%92%E7%9B%AE%E6%A0%87/" />
-<meta property="og:site_name" content="java导入SSL证书" />
+  content="经典美文节选 名人故事 sdfsdfsdsfsdf " />
+<meta property="og:url" content="https://kk-karl.github.io/booklog/post/myblg16/" />
+<meta property="og:site_name" content="美文精选（02）" />
 <meta property="og:image"
   content="https://kk-karl.github.io/booklog/">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
 
-<meta property="article:published_time" content="2024-04-15 14:01:37 &#43;0800 CST" />
+<meta property="article:published_time" content="2024-07-25 20:37:50 &#43;0800 CST" />
 
 
 
@@ -153,19 +132,19 @@ TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {pub
                   </span>
                   <span class="path-divider">/</span>
                   <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
-                    <a href="https://kk-karl.github.io/booklog/post/%E6%88%91%E7%9A%84%E8%AE%A1%E5%88%92%E7%9B%AE%E6%A0%87/">java导入SSL证书</a>
+                    <a href="https://kk-karl.github.io/booklog/post/myblg16/">美文精选（02）</a>
                   </strong>
                 </h1>
                 <div class="note m-0">
-                  Created <relative-time datetime="Mon, 15 Apr 2024 14:01:37 &#43;0800"
+                  Created <relative-time datetime="Thu, 25 Jul 2024 20:37:50 &#43;0800"
                     class="no-wrap">
-                    Mon, 15 Apr 2024 14:01:37 &#43;0800</relative-time>
+                    Thu, 25 Jul 2024 20:37:50 &#43;0800</relative-time>
 
                   
                   <span class="file-info-divider"></span>
-                  Modified <relative-time datetime="Sun, 12 May 2024 12:46:24 &#43;0800"
+                  Modified <relative-time datetime="Thu, 25 Jul 2024 20:41:04 &#43;0800"
                     class="no-wrap">
-                    Sun, 12 May 2024 12:46:24 &#43;0800</relative-time>
+                    Thu, 25 Jul 2024 20:41:04 &#43;0800</relative-time>
                   
                 </div>
               </div>
@@ -195,7 +174,7 @@ TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {pub
                         </div>
                       </div>
                     </details-menu>
-                      538 Words
+                      13 Words
                      <span class="file-info-divider"></span>
                                         1 min
 
@@ -204,23 +183,23 @@ TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {pub
                     
                     
                     
-                    <a class="muted-link mr-3" href="../../tags/java" >
+                    <a class="muted-link mr-3" href="../../tags/%E7%9F%A5%E8%AF%86" >
                       <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
                         <path fill-rule="evenodd"
                           d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
                         </path>
                       </svg>
-                      java
+                      知识
                     </a>
                     
                     
-                    <a class="muted-link mr-3" href="../../tags/ssl" >
+                    <a class="muted-link mr-3" href="../../tags/%E5%AD%A6%E4%B9%A0" >
                       <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
                         <path fill-rule="evenodd"
                           d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
                         </path>
                       </svg>
-                      ssl
+                      学习
                     </a>
                     
                     
@@ -230,34 +209,14 @@ TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {pub
 
 
               <div class="Box-body px-5 pb-5" style="z-index: 1">
-                <article class="markdown-body entry-content container-lg"><p>这个错误通常是由于您正在尝试连接到使用自签名证书或未经受信任的根证书颁发机构签发的证书的SSL站点。</p>
-<p>要解决此问题，有以下几种方法：</p>
-<h4 id="01导入ssl证书">01、导入SSL证书</h4>
-<p>将SSL证书导入到您的Java keystore中。可以使用keytool工具将证书添加到Java keystore。使用以下命令：</p>
-<p>keytool -importcert -file certificate_file -alias alias_name -keystore keystore_file</p>
-<p>其中certificate_file是您要导入的证书文件，alias_name是别名，keystore_file是Java keystore文件的路径和名称。</p>
-<h4 id="02禁用证书验证">02、禁用证书验证</h4>
-<p>如果您不想导入证书，可以在您的Java代码中禁用SSL证书验证。这是不推荐的，因为这可能会带来安全风险。但是，如果您只是在开发环境中使用SSL站点，并且您知道站点是安全的，则可以使用以下代码禁用证书验证：</p>
-<pre tabindex="0"><code>
-TrustManager[] trustAllCerts = new TrustManager[] {
-new X509TrustManager() {
-public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-return null;
-}
-public void checkClientTrusted(X509Certificate[] certs, String authType) {
-}
-public void checkServerTrusted(X509Certificate[] certs, String authType) {
-}
-}
-};
+                <article class="markdown-body entry-content container-lg"><h2 id="经典美文节选">经典美文节选</h2>
+<h3 id="名人故事">名人故事</h3>
+<pre tabindex="0"><code class="language-agsl" data-lang="agsl">
 
-SSLContext sc = SSLContext.getInstance(&#34;SSL&#34;);
-sc.init(null, trustAllCerts, new java.security.SecureRandom());
-HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-</code></pre><h4 id="03更新java证书存储库">03、更新Java证书存储库</h4>
-<p>如果您的Java证书存储库已过期或缺少必要的根证书颁发机构，则可能需要更新Java证书存储库。可以从各种证书颁发机构网站下载最新的根证书并将其添加到Java证书存储库中。</p>
-<p>这些解决方案可能会因您的具体情况而异。如果您仍然无法解决问题，请查看日志以获取更多信息，并考虑联系站点管理员以获取帮助。</p>
-</article>
+sdf
+sdfsd
+sfsdf
+</code></pre></article>
               </div>
             </div>
           </div>
